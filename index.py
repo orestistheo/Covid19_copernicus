@@ -27,3 +27,4 @@ def display_page(pathname):
 if __name__ == '__main__':
     app.config['suppress_callback_exceptions'] = True
     app.run_server(debug=True)
+
