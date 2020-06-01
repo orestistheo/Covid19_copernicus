@@ -15,7 +15,7 @@ app.layout = html.Div([
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/covid_map':
+    if pathname == '/':
         layout = map_layout
     elif pathname == '/about':
         layout = about_layout

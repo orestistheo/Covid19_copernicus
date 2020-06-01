@@ -1,5 +1,6 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import os
 import pandas as pd
 import plotly.graph_objects as go
 from app import app
@@ -15,21 +16,30 @@ IntroText = "Recently published papers have suggested that, as happens with the 
             "climatological air pollution levels from the Copernicus Atmosphere Monitoring Service and the mortality data obtained from Johns Hopkins " \
             "University."
 
+
+# script.py
+current_file = os.path.abspath(os.path.dirname(__file__)) #older/folder2/scripts_folder
+#csv_filename
+agregados_filename = os.path.join(current_file, 'agregados.csv')
+coordinates_filename = os.path.join(current_file, 'spainCitiesCoords2.csv')
+
+
 # the dataframe  contains the association between city code and coordinates lat, lon
 # column structure CityCode, Lat, Lon
 coordinates = pd.read_csv(
-    'C:/developmentFiles/spainCitiesCoords2.csv'
+    coordinates_filename
     , encoding="ISO-8859-1"
     , error_bad_lines=False)
 site_lat = coordinates['Lat'] = coordinates['Lat'].astype(float)
 site_lon = coordinates['Lon'] = coordinates['Lon'].astype(float)
 locations_name = coordinates['CityCode'] = coordinates['CityCode'].astype(str)
 
+
 # main dataframe that contains R values per city
 # Ideally should have a column structure of 
 #  CityCode, Date, R value, Temperature, Humidity, Maybe other climatic parameters...
 data = pd.read_csv(
-    'C:/developmentFiles/agregados.csv'
+    agregados_filename
     , encoding="ISO-8859-1"
     , error_bad_lines=False)
 Columns = ['City', 'Date', 'Nan', 'Total Cases', 'Nan', 'Nan', 'Nan', 'Deaths', 'Recovered']
