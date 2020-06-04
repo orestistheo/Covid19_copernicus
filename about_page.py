@@ -11,7 +11,7 @@ tab1_content = html.Div([
                 [
                     dbc.CardBody(
                         [
-                            html.A(html.H5("Charalampopoulou Dimitra"), href="/", className="card-title"),
+                            html.H5("Charalampopoulou Dimitra"),
                             html.P(
                                 "BA Business Administration & Information Systems"),
                             html.P(
@@ -74,7 +74,7 @@ tab1_content = html.Div([
                     dbc.CardBody(
                         [
                             html.A(html.H5("Christodoulakis Michalis"),
-                                   href="/http://linkedin.com/in/michalis-christodoulakis", className="card-title"),
+                                   href="http://linkedin.com/in/michalis-christodoulakis", className="card-title"),
                             html.P(
                                 "Bsc Electrical and Computer Engineer"),
                             html.P(
@@ -93,7 +93,7 @@ tab1_content = html.Div([
                 [
                     dbc.CardBody(
                         [
-                            html.A(html.H5("Kolovos Spyros"), href="/", className="card-title"),
+                            html.A(html.H5("Kolovos Spyros"), href="http://linkedin.com/in/spiros-kolovos", className="card-title"),
                             html.P(
                                 "Bsc in Mechanical Engineering & Aeronautics"),
                             html.P(

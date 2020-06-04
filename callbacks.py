@@ -171,19 +171,16 @@ def render_output_panel(clickData):
             dbc.Card(body=True, className="text-white bg-primary", children=[
                 html.H6("Total cases until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(total_cases_until_today), style={"color": "white"}),
-
+                html.Br(),
                 html.H6("Total cases since yesterday:", className="text-danger"),
                 html.H3("{:,.0f}".format(total_cases_since_yesterday), className="text-danger"),
-
+                html.Br(),
                 html.H6("Total deaths until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(total_deaths_until_today), style={"color": "white"}),
-
+                html.Br(),
                 html.H6("Total deaths since yesterday:", className="text-danger"),
                 html.H3("{:,.0f}".format(total_deaths_since_yesterday), className="text-danger"),
 
-                html.H6("Peak day:", style={"color": 54}),
-                # html.H3(peak_day.strftime("%Y-%m-%d"), style={"color": 54}),
-                html.H6("with {:,.0f} cases".format(54), style={"color": 54})
 
             ])
         ])
@@ -193,19 +190,17 @@ def render_output_panel(clickData):
             dbc.Card(body=True, className="text-white bg-primary", children=[
                 html.H6("Total cases until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(0), style={"color": "white"}),
+                html.Br(),
 
                 html.H6("Total cases in 14 days:", className="text-danger"),
                 html.H3("{:,.0f}".format(0), className="text-danger"),
-
+                html.Br(),
                 html.H6("Active cases today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(0), style={"color": "white"}),
-
+                html.Br(),
                 html.H6("Active cases in 14 days:", className="text-danger"),
                 html.H3("{:,.0f}".format(0), className="text-danger"),
 
-                html.H6("Peak day:", style={"color": 54}),
-                # html.H3(peak_day.strftime("%Y-%m-%d"), style={"color": 54}),
-                html.H6("with {:,.0f} cases".format(54), style={"color": 54})
 
             ])
         ])
