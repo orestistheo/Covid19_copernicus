@@ -7,11 +7,9 @@ header = html.Div([
     # Header component
     # Navbar
     dbc.Nav(className="nav nav-pills", children=[
-        ## logo/home
-        dbc.NavItem(html.Img(src=PLOTLY_LOGO, height="40px")),
         ## home_page
         dbc.NavItem(html.Div([
-            dbc.NavLink("HOME", href="/covid_map", id="about-popover", active=False),
+            dbc.NavLink("HOME", href="/", id="about-popover", active=False),
             dbc.Popover(id="about", is_open=False, target="about-popover", children=[
                 dbc.PopoverHeader("How it works")
             ])
@@ -23,7 +21,7 @@ header = html.Div([
                 dbc.PopoverHeader("How it works")
             ])
         ])),
-    ], style={"backgroundColor": "#00FFFF"})
+    ], style={"backgroundColor": "#0060FF"})
 ]
 )
 
@@ -31,7 +29,7 @@ footer = html.Div(
     id='footer-copyright',
     children=[
         html.Span(
-            'Copyright © 2019 Jonathan Diamond',
+            'Copyright © 2020 covid6gang',
             className='text-muted',
             style={'textAlign': 'center'}
         ),

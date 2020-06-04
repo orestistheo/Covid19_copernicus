@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 from app import app
+import plotly.tools as tls
 from app_components import header, footer
 
 mapbox_access_token = 'pk.eyJ1Ijoib3Jlc3Rpc3RoZW8iLCJhIjoiY2thd2Vud2ljMTlvYTJ4cHRnd3Bybm5haiJ9.k63ds2sBjA-kPGInervhZw'
@@ -11,14 +12,14 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 IntroText = "Recently published papers have suggested that, as happens with the diffusion of other viruses, " \
             "air temperature and humidity could alter the spread of COVID-19. Papers in discussion also suggest " \
             "that air pollution, particularly fine particulate matter, could be involved in the morbidity and mortality due to " \
-            "COVID-19 and might also play a role in spreading the SARS-CoV-2 virus. This application, provided by the Copernicus Climate Change Service," \
-            " allows the user to explore some of these claims by plotting the average air temperature and humidity of the most recent months, alongside " \
+            "COVID-19 and might also play a role in spreading the SARS-CoV-2 virus. This application, provided by the Copernicus Hackathon 2020 covid6gang team," \
+            " allows the user to explore some of these claims by plotting the average air temperature, UV radiation and humidity of the most recent months, alongside " \
             "climatological air pollution levels from the Copernicus Atmosphere Monitoring Service and the mortality data obtained from Johns Hopkins " \
             "University."
 
 
 # script.py
-current_file = os.path.abspath(os.path.dirname(__file__)) #older/folder2/scripts_folder
+current_file = os.path.abspath(os.path.dirname(__file__))
 #csv_filename
 agregados_filename = os.path.join(current_file, 'agregados.csv')
 coordinates_filename = os.path.join(current_file, 'spainCitiesCoords2.csv')
@@ -42,11 +43,12 @@ data = pd.read_csv(
     agregados_filename
     , encoding="ISO-8859-1"
     , error_bad_lines=False)
-Columns = ['City', 'Date', 'Nan', 'Total Cases', 'Nan', 'Nan', 'Nan', 'Deaths', 'Recovered']
+Columns = ['City', 'Date', 'Nan', 'Total Cases', 'Nan', 'Nan', 'Nan', 'Deaths', 'Recovered', 'R_value']
 data.columns = Columns
 del data['Nan']
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%d/%m/%Y')
 data['Date'] = pd.to_datetime(data['Date'])
+data['R_value'] = data['R_value'].astype(float)
 data.iloc[:17, 3:5] = 0
 data.iloc[17, 4] = 0
 data.fillna(0, inplace=True)

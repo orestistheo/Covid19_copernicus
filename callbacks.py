@@ -24,6 +24,25 @@ def display_click_data(clickData):
                 text=1,
                 customdata=1,
                 mode='markers+lines',
+                name="Active cases",
+                hoverinfo=countrycode,
+                line=dict(color='firebrick', width=4),
+                xaxis="x1",
+                marker={
+                    'size': 10,
+                    'opacity': 0.5,
+                    'color': 'black',
+                    'line': {'width': 0.5, 'color': 'white'}
+                }
+            ), dict(
+                x=data[(data['City'] == str(countrycode))]['Date'],
+                y=data[(data['City'] == str(countrycode))]['R_value'],
+                text=1,
+                yaxis="y2",
+                line=dict(color='royalblue', width=4),
+                name="R_value",
+                customdata=1,
+                mode='markers+lines',
                 hoverinfo=countrycode,
                 marker={
                     'size': 10,
@@ -31,7 +50,8 @@ def display_click_data(clickData):
                     'color': 'black',
                     'line': {'width': 0.5, 'color': 'white'}
                 }
-            )],
+            )
+            ],
             'layout': dict(
                 title=dict(
                     text=coordinates[(coordinates['CityCode'] == countrycode)]['CityName'].values[0],
@@ -45,14 +65,19 @@ def display_click_data(clickData):
                 ),
                 plot_bgcolor='#F0F8FF',
                 xaxis={
-                    'type': 'date',
-                    'tickmode': 'linear',
-                    'dtick': 86400000.0 * 14,
+                    "showspikes": True,
+                    'range': [datetime.datetime(2020, 3, 15), datetime.datetime(2020, 5, 25)]
                 },
                 yaxis={
-                    'title': 'COVID-19 cases',
-                    'type': 'linear'
+                    'title': 'ACTIVE CASES',
+                    'type': 'linear',
+                    'domain': [0, 0.45]
                 },
+                yaxis2=dict(
+                    title='R VALUES',
+                    type='linear',
+                    domain=[0.55, 1]
+                ),
                 font=dict(
                     family="Georgia, serif",
                     size=12,
@@ -70,6 +95,7 @@ def display_click_data(clickData):
                 x=1,
                 y=1,
                 text=1,
+                yaxis="y",
                 customdata=1,
                 mode='markers',
                 hoverinfo="None",
@@ -78,7 +104,22 @@ def display_click_data(clickData):
                     'opacity': 0.5,
                     'line': {'width': 0.5, 'color': 'white'}
                 }
-            )],
+            )
+                , dict(
+                    x=1,
+                    y=1,
+                    text=1,
+                    yaxis="y2",
+                    name="R_value",
+                    customdata=1,
+                    mode='markers+lines',
+                    marker={
+                        'size': 10,
+                        'opacity': 0.5,
+                        'line': {'width': 0.5, 'color': 'white'}
+                    }
+                )
+            ],
             'layout': dict(
                 plot_bgcolor='#F0F8FF',
                 xaxis={
@@ -87,9 +128,15 @@ def display_click_data(clickData):
                     'range': [datetime.datetime(2013, 10, 17), datetime.datetime(2013, 11, 20)]
                 },
                 yaxis={
-                    'title': 'COVID-19 cases',
-                    'type': 'linear'
+                    'title': 'ACTIVE CASES',
+                    'type': 'linear',
+                    'domain': [0, 0.45]
                 },
+                yaxis2=dict(
+                    title='R VALUES',
+                    type='linear',
+                    domain=[0.55, 1]
+                ),
                 font=dict(
                     family="Georgia, serif",
                     size=12,
@@ -116,6 +163,8 @@ def render_output_panel(clickData):
         total_deaths_array = data[(data['City'] == str(country_code))]['Deaths']
         total_cases_until_today = total_cases_array.iloc[-1]
         total_deaths_until_today = total_deaths_array.iloc[-1]
+        total_cases_since_yesterday = total_cases_array.iloc[-1] - total_cases_array.iloc[-2]
+        total_deaths_since_yesterday = total_deaths_array.iloc[-1] - total_deaths_array.iloc[-2]
         # calculate quick stats to display
         city_name = coordinates[(coordinates['CityCode'] == country_code)]['CityName'].values[0]
         panel = html.Div([
@@ -123,14 +172,14 @@ def render_output_panel(clickData):
                 html.H6("Total cases until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(total_cases_until_today), style={"color": "white"}),
 
-                html.H6("Total cases in 30 days:", className="text-danger"),
-                html.H3("{:,.0f}".format(30), className="text-danger"),
+                html.H6("Total cases since yesterday:", className="text-danger"),
+                html.H3("{:,.0f}".format(total_cases_since_yesterday), className="text-danger"),
 
                 html.H6("Total deaths until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(total_deaths_until_today), style={"color": "white"}),
 
-                html.H6("Total deaths in 30 days:", className="text-danger"),
-                html.H3("{:,.0f}".format(54), className="text-danger"),
+                html.H6("Total deaths since yesterday:", className="text-danger"),
+                html.H3("{:,.0f}".format(total_deaths_since_yesterday), className="text-danger"),
 
                 html.H6("Peak day:", style={"color": 54}),
                 # html.H3(peak_day.strftime("%Y-%m-%d"), style={"color": 54}),
@@ -145,13 +194,13 @@ def render_output_panel(clickData):
                 html.H6("Total cases until today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(0), style={"color": "white"}),
 
-                html.H6("Total cases in 30 days:", className="text-danger"),
+                html.H6("Total cases in 14 days:", className="text-danger"),
                 html.H3("{:,.0f}".format(0), className="text-danger"),
 
                 html.H6("Active cases today:", style={"color": "white"}),
                 html.H3("{:,.0f}".format(0), style={"color": "white"}),
 
-                html.H6("Active cases in 30 days:", className="text-danger"),
+                html.H6("Active cases in 14 days:", className="text-danger"),
                 html.H3("{:,.0f}".format(0), className="text-danger"),
 
                 html.H6("Peak day:", style={"color": 54}),
