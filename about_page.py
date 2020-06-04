@@ -2,16 +2,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from app_components import header, footer
-import os
-import base64
-
-# script.py
-current_file = os.path.abspath(os.path.dirname(__file__))
-# jpg_filename
-p1_img = os.path.join(current_file, '../images/p1.png')
-test_base64 = base64.b64encode(open('C:/Users/Ορέστης/PycharmProjects/mapProject/images/p1.png', 'rb').read()).decode(
-    'ascii')
-PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 
 tab1_content = html.Div([
     html.Div([
