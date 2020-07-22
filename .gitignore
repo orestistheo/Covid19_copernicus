@@ -1,1 +1,4 @@
 venv/*
+ConfigFile.properties
+.gitignore
+.idea

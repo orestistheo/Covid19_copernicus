@@ -3,11 +3,19 @@ import dash_html_components as html
 import os
 import pandas as pd
 import plotly.graph_objects as go
+import configparser
 from app import app
 import plotly.tools as tls
 from app_components import header, footer
+import dbConnection as dbConn
 
-mapbox_access_token = 'pk.eyJ1Ijoib3Jlc3Rpc3RoZW8iLCJhIjoiY2thd2Vud2ljMTlvYTJ4cHRnd3Bybm5haiJ9.k63ds2sBjA-kPGInervhZw'
+# Get properties for integration with external API
+this_folder = os.path.dirname(os.path.abspath(__file__))
+init_file = os.path.join(this_folder, 'ConfigFile.properties')
+config = configparser.RawConfigParser()
+config.read(init_file)
+mapbox_access_token = config.get('ScatterMap', 'map_key')
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 IntroText = "Recently published papers have suggested that, as happens with the diffusion of other viruses, " \
             "air temperature and humidity could alter the spread of COVID-19. Papers in discussion also suggest " \
@@ -27,13 +35,10 @@ coordinates_filename = os.path.join(current_file, 'spainCitiesCoords2.csv')
 
 # the dataframe  contains the association between city code and coordinates lat, lon
 # column structure CityCode, Lat, Lon
-coordinates = pd.read_csv(
-    coordinates_filename
-    , encoding="ISO-8859-1"
-    , error_bad_lines=False)
-site_lat = coordinates['Lat'] = coordinates['Lat'].astype(float)
-site_lon = coordinates['Lon'] = coordinates['Lon'].astype(float)
-locations_name = coordinates['CityCode'] = coordinates['CityCode'].astype(str)
+coordinates = dbConn.read_data_from_db_table('city_coordinates')
+site_lat = coordinates['LATITUDE']
+site_lon = coordinates['LONGTITUDE']
+locations_name = coordinates['CITY_CODE']
 
 
 # main dataframe that contains R values per city

@@ -14,9 +14,9 @@ import datetime
 def display_click_data(clickData):
     if clickData is not None:
         filtered = coordinates[
-            (coordinates['Lat'] == float(clickData['points'][0]['lat'])) &
-            (coordinates['Lon'] == float(clickData['points'][0]['lon']))]
-        countrycode = filtered.iat[0, 0]
+            (coordinates['LATITUDE'] == float(clickData['points'][0]['lat'])) &
+            (coordinates['LONGTITUDE'] == float(clickData['points'][0]['lon']))]
+        countrycode = filtered['CITY_CODE'].iloc[0]
         return {
             'data': [dict(
                 x=data[(data['City'] == str(countrycode))]['Date'],
@@ -54,7 +54,7 @@ def display_click_data(clickData):
             ],
             'layout': dict(
                 title=dict(
-                    text=coordinates[(coordinates['CityCode'] == countrycode)]['CityName'].values[0],
+                    text=coordinates[(coordinates['CITY_CODE'] == countrycode)]['CITY_NAME'].values[0],
                     font=dict(
                         family="Georgia, serif",
                         size=28,
@@ -155,9 +155,9 @@ def display_click_data(clickData):
 def render_output_panel(clickData):
     if clickData is not None:
         filtered = coordinates[
-            (coordinates['Lat'] == float(clickData['points'][0]['lat'])) &
-            (coordinates['Lon'] == float(clickData['points'][0]['lon']))]
-        country_code = filtered.iat[0, 0]
+            (coordinates['LATITUDE'] == float(clickData['points'][0]['lat'])) &
+            (coordinates['LONGTITUDE'] == float(clickData['points'][0]['lon']))]
+        country_code = filtered['CITY_CODE'].iloc[0]
         # calculate quick stats to display
         total_cases_array = data[(data['City'] == str(country_code))]['Total Cases']
         total_deaths_array = data[(data['City'] == str(country_code))]['Deaths']
@@ -166,7 +166,7 @@ def render_output_panel(clickData):
         total_cases_since_yesterday = total_cases_array.iloc[-1] - total_cases_array.iloc[-2]
         total_deaths_since_yesterday = total_deaths_array.iloc[-1] - total_deaths_array.iloc[-2]
         # calculate quick stats to display
-        city_name = coordinates[(coordinates['CityCode'] == country_code)]['CityName'].values[0]
+        city_name = coordinates[(coordinates['CITY_CODE'] == country_code)]['CITY_NAME'].values[0]
         panel = html.Div([
             dbc.Card(body=True, className="text-white bg-primary", children=[
                 html.H6("Total cases until today:", style={"color": "white"}),
